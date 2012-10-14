@@ -70,7 +70,7 @@ public:
     static
     JsonValue * withBoolean(bool isTrue)
     {
-        JsonValue *value = new JsonValue();
+        JsonValue * value = new JsonValue();
         value->m_type = kBoolean;
         value->m_stringValue = isTrue ? "true" : "false";
         return value;
@@ -79,7 +79,7 @@ public:
     static
     JsonValue * withString(std::string str)
     {
-        JsonValue *value = new JsonValue();
+        JsonValue * value = new JsonValue();
         value->m_type = kString;
         value->m_stringValue = str;
         return value;
@@ -93,6 +93,16 @@ public:
         value->m_stringValue = number;
         return value;
     }
+    
+    static
+    JsonValue * withNull()
+    {
+        JsonValue * value = new JsonValue();
+        value->m_type = kNull;
+        value->m_stringValue = "null";
+        return value;
+    }
+    
     
     value_t getType() const
     {

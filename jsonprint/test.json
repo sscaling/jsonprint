@@ -6,6 +6,7 @@
     "float" : 1.92567e8,
     "an array" :
     [
-        2,3,4
-    ]
+     2,3,4, {"some":[true,false,true, null]}
+    ],
+    foo
 }

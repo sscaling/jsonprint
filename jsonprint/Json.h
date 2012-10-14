@@ -50,6 +50,7 @@ private:
     bool isBoolean() const;
     bool readBoolean(bool &boolean);
     bool readNumber(std::string &num);
+    bool readNull();
     
 
     

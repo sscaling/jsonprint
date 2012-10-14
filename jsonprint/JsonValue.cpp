@@ -40,6 +40,12 @@ JsonValue::toString() const
         case kString:
             return m_stringValue;
             
+        case kObject:
+            return "{ not implemented }";
+            
+        case kArray:
+            return "[ not implemented ]";
+            
         default:
             break;
     }

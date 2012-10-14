@@ -72,7 +72,7 @@ Json::eatWhiteSpace()
     do {
         if ( isspace(ch) )
         {
-            cout << "eating '" << ch << "' @ " << m_iPos << endl;
+//            cout << "eating '" << ch << "' @ " << m_iPos << endl;
         }
         else
         {
@@ -165,6 +165,19 @@ Json::parse()
     if ( m_strLastErr.length() > 0 )
     {
         cout << "[ERROR] " << m_strLastErr << " around character " << m_iLastErrPos << endl;
+        const char * p = (m_pszInput + m_iLastErrPos - 10);
+        if ( p < 0 )
+        {
+            p = m_pszInput;
+        }
+        
+        cout << "around :" << endl << "------------" << endl;
+        for ( int i = 0; i < 15; ++i )
+        {
+            printf("%c", *(p + i));
+        }
+        cout << endl << "-------------" << endl;
+        
     }
     else
     {
@@ -184,6 +197,46 @@ Json::parseJsonArray()
         skipChar();
         
         JsonValue *parent = JsonValue::withArray();
+        
+        JsonValue *child;
+        
+        while ( (NULL != (child = parseJsonValue())) )
+        {
+            JsonValue::array_t * array = parent->getArray();
+            if ( array )
+            {
+                cout << "adding " << child->toString() << " to array" << endl;
+                array->push_back(child);
+            }
+            else
+            {
+                setError("Couldn't locate array in parent");
+                break;
+            }
+            
+            eatWhiteSpace();
+            
+            if ( ',' == thisChar() )
+            {
+                skipChar();
+            }
+            else
+            {
+                break;
+            }
+        }
+        
+        eatWhiteSpace();
+        
+        if ( !hasError() && ']' == thisChar() )
+        {
+            skipChar();
+            return parent;
+        }
+        else
+        {
+            delete parent;
+        }
     }
     
     return NULL;
@@ -220,6 +273,7 @@ Json::parseJsonObject()
         {
             // FIXME: error checking, delete bad object
             //  - space at end of json?
+            skipChar();
             return parent;
         }
         else
@@ -317,9 +371,13 @@ Json::parseJsonValue()
                         return JsonValue::withBoolean(bValue);
                     }
                 }
-                else
+                else if ( 'n' == thisChar() )
                 {
-                    setError("null not parsing not implemented or an invalid value");
+                    if ( readNull() )
+                    {
+                        cout << "found null" << endl;
+                        return JsonValue::withNull();
+                    }
                 }
             }
             break;
@@ -498,6 +556,22 @@ Json::readNumber(string &num)
     }
     
     setError("Unexpected number format :: invalid start");
+    
+    return false;
+}
+
+bool
+Json::readNull()
+{
+    eatWhiteSpace();
+    
+    const char * p = m_pszInput + m_iPos;
+
+    if ('n' == p[0] && 'u' == p[1] && 'l' == p[2] && 'l' == p[3])
+    {
+        skipChars(4);
+        return true;
+    }
     
     return false;
 }
