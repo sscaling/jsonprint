@@ -1,0 +1,11 @@
+{
+    "boolean" : true,
+    "string" : "some text",
+    "basic number" : 1,
+    "neg number" : -1,
+    "float" : 1.92567e8,
+    "an array" :
+    [
+        2,3,4
+    ]
+}
