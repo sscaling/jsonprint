@@ -7,10 +7,12 @@
 //
 
 #include "JsonValue.h"
+#include <sstream>
 
 
 JsonValue::~JsonValue()
 {
+    // FIXME: delete objects in map/vector
     if ( m_pObjectValue )
     {
         if ( kObject == m_type )
@@ -19,7 +21,7 @@ JsonValue::~JsonValue()
         }
         else if ( kArray == m_type )
         {
-            // FIXME: delete array
+            delete (array_t*)m_pObjectValue;
         }
     }
 }
@@ -28,6 +30,15 @@ JsonValue::JsonValue()
 {
     m_stringValue = "";
     m_pObjectValue = 0;
+}
+
+// http://www.cplusplus.com/articles/D9j2Nwbp/
+template <typename T>
+std::string NumberToString ( T Number )
+{
+    std::ostringstream ss;
+    ss << Number;
+    return ss.str();
 }
 
 std::string
@@ -41,10 +52,56 @@ JsonValue::toString() const
             return m_stringValue;
             
         case kObject:
-            return "{ not implemented }";
+            {
+                // FIXME: stack will be lost!
+                std::string rv("{\n");
+                object_t * map = getObject();
+                object_t::iterator it = map->begin();
+                int count = 0;
+                for ( ; it != map->end(); ++it )
+                {
+                    std::string key   = it->first;
+                    JsonValue * value = it->second;
+                    
+                    if ( count > 0 )
+                    {
+                        rv.append(",\n");
+                    }
+                    
+                    rv.append("\"");
+                    rv.append(key);
+                    rv.append("\" : ");
+                    
+                    rv.append(value->toString());
+
+                    ++count;
+                }
+                rv.append("\n}\n");
+                return rv;
+            }
+            break;
             
         case kArray:
-            return "[ not implemented ]";
+            {
+                std::string rv("[\n");
+                array_t * array = getArray();
+                array_t::iterator it = array->begin();
+                int count = 0;
+                for ( ; it != array->end() ; ++it )
+                {
+                    if ( count > 0 )
+                    {
+                        rv.append(",\n");
+                    }
+                    rv.append( NumberToString(count) );
+                    rv.append(" => ");
+                    rv.append( (*it)->toString() );
+                    
+                    ++count;
+                }
+                rv.append("\n]");
+                return rv;
+            }
             
         default:
             break;
