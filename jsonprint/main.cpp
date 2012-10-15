@@ -61,7 +61,7 @@ int main(int argc, const char * argv[])
         jsonInput.append(line);
     }
     
-    Json * j = new Json(line.c_str(), (int)line.length());
+    Json * j = new Json(jsonInput.c_str(), (int)jsonInput.length());
     
     j->pipe(std::cout);
     

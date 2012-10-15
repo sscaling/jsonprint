@@ -160,7 +160,9 @@ Json::hasError() const
 void
 Json::parse()
 {
-    m_pJson = parseJsonObject();
+    m_pJson = parseJsonValue();
+    
+// printf( "Parsed JSON @ 0x%x  :: error ? %s\n", m_pJson, (m_strLastErr.length() > 0?"true" : "false") );
 }
 
 void
@@ -191,7 +193,7 @@ Json::pipe(std::ostream &os)
     }
     else
     {
-        os << "[Unknown ERROR] no JSON parsed";
+        os << "[Unknown ERROR] no JSON parsed" << endl;
     }
 
 }
