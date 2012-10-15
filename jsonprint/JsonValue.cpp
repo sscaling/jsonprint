@@ -109,3 +109,66 @@ JsonValue::toString() const
     
     return "";
 }
+
+
+void
+JsonValue::pipeJson(std::ostream &os, std::string parentPath) const
+{
+    switch (m_type) {
+            
+        case kNull:
+        case kNumber:
+        case kBoolean:
+            os << parentPath << "\t" << m_stringValue << std::endl;
+            break;
+        case kString:
+            os << parentPath << "\t\"" << m_stringValue << "\"" << std::endl;
+            break;
+            
+        case kObject:
+            {
+                if ( parentPath.empty() )
+                {
+                    os << m_pathSeparator;
+                }
+                
+                os << parentPath << "\t{}" << std::endl;
+                
+                object_t * map = getObject();
+                object_t::iterator it = map->begin();
+                
+                for ( ; it != map->end(); ++it )
+                {
+                    std::string childPath(parentPath);
+                    childPath.append(m_pathSeparator).append(it->first);
+                    
+                    it->second->pipeJson(os, childPath);
+                }
+            }
+            break;
+
+        case kArray:
+            {
+                os << parentPath << m_pathSeparator <<  "\t[]" << std::endl;
+                
+                array_t * array = getArray();
+                array_t::iterator it = array->begin();
+                int count = 0;
+                for ( ; it != array->end() ; ++it )
+                {
+                    std::string childPath(parentPath);
+                    childPath.append(m_pathSeparator).append(NumberToString(count));
+                    
+                    (*it)->pipeJson(os, childPath);
+                    
+                    ++count;
+                }
+            }
+            break;
+
+            
+        default:
+            std::cerr << "Couldn't print JSON contents correctly" << std::endl;
+            break;
+    }
+}

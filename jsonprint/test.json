@@ -7,5 +7,7 @@
     "an array" :
     [
      2,3,4, {"some":[true,false,true, null]}
-    ]
+    ],
+    "report":
+    [{"metrics":{"count":844,"dataBefore":10791983,"dataAfter":9869903,"savings":0.06,"speedImprovement":3.7369366,"lastUsed":"2012-10-11T12:39:34.488Z","firstUsed":"2012-10-09T15:14:13.969Z","lastUsedUtcMs":1349959174488,"firstUsedUtcMs":1349795653969},"timePeriod":{"start":"2012-09-16T00:00:00.000Z","description":"Last 30 Days","key":"last_thirty_days","end":"2012-10-15T23:59:59.999Z"},"displayDetail":true,"predicted":false},{"metrics":{"count":0,"dataBefore":0,"dataAfter":0,"savings":-1.0,"speedImprovement":0.0,"lastUsed":"","firstUsed":"","lastUsedUtcMs":0,"firstUsedUtcMs":0},"timePeriod":{"start":"2012-10-15T00:00:00.000Z","description":"Today","key":"today","end":"2012-10-15T23:59:59.999Z"},"displayDetail":true,"predicted":false},{"metrics":{"count":0,"dataBefore":0,"dataAfter":0,"savings":0.38,"speedImprovement":0.0,"lastUsed":"","firstUsed":"","lastUsedUtcMs":0,"firstUsedUtcMs":0},"timePeriod":{"start":"2012-09-11T00:00:00.000Z","description":"Annual","key":"annual","end":"2012-10-15T23:59:59.999Z"},"displayDetail":false,"predicted":true}]
 }

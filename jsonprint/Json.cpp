@@ -92,7 +92,7 @@ Json::thisChar() const
 char
 Json::nextChar() const
 {
-    cout << "nextChar() '" << m_pszInput[m_iPos + 1] << "' @ pos " << (m_iPos + 1) << endl;
+//    cout << "nextChar() '" << m_pszInput[m_iPos + 1] << "' @ pos " << (m_iPos + 1) << endl;
     
     if ( m_iPos + 1 <= m_iSize )
     {
@@ -160,31 +160,40 @@ Json::hasError() const
 void
 Json::parse()
 {
-    JsonValue *root = parseJsonObject();
-    
+    m_pJson = parseJsonObject();
+}
+
+void
+Json::pipe(std::ostream &os)
+{
     if ( m_strLastErr.length() > 0 )
     {
-        cout << "[ERROR] " << m_strLastErr << " around character " << m_iLastErrPos << endl;
+        os << "[ERROR] " << m_strLastErr << " around character " << m_iLastErrPos << endl;
         const char * p = (m_pszInput + m_iLastErrPos - 10);
         if ( p < 0 )
         {
             p = m_pszInput;
         }
         
-        cout << "around :" << endl << "------------" << endl;
+        os << "around :" << endl << "------------" << endl;
         for ( int i = 0; i < 15; ++i )
         {
             printf("%c", *(p + i));
         }
-        cout << endl << "-------------" << endl;
+        os << endl << "-------------" << endl;
         
+    }
+    else if ( m_pJson )
+    {
+        //cout << "[SUCCESS] " << endl; //<< root->toString() << endl;
+        
+        m_pJson->pipeJson(os);
     }
     else
     {
-        cout << "[SUCCESS] " << root->toString() << endl;
+        os << "[Unknown ERROR] no JSON parsed";
     }
-    
-    m_pszInput = NULL;
+
 }
 
 JsonValue *
@@ -205,7 +214,7 @@ Json::parseJsonArray()
             JsonValue::array_t * array = parent->getArray();
             if ( array )
             {
-                cout << "adding " << child->toString() << " to array" << endl;
+//                cout << "adding " << child->toString() << " to array" << endl;
                 array->push_back(child);
             }
             else
@@ -295,7 +304,7 @@ Json::parseKeyValue(JsonValue::object_t *parentObject)
     string key;
     if ( readString(key) )
     {
-        cout << "KEY :: '" << key << "'" << endl;
+//        cout << "KEY :: '" << key << "'" << endl;
         
         eatWhiteSpace();
         
@@ -303,12 +312,12 @@ Json::parseKeyValue(JsonValue::object_t *parentObject)
         {
             skipChar();
             
-            cout << "looking for " << key << " value" << endl;
+//            cout << "looking for " << key << " value" << endl;
             
             JsonValue *value = parseJsonValue();
             if ( value )
             {
-                cout << "inserting " << key << ", " << value->toString() << endl;
+//                cout << "inserting " << key << ", " << value->toString() << endl;
                 
                 JsonValue::pair_t pair(key, value);
                 parentObject->insert(pair);
@@ -349,7 +358,7 @@ Json::parseJsonValue()
                     string str;
                     if ( readString(str) )
                     {
-                        cout << "found string" << endl;
+//                        cout << "found string" << endl;
                         return JsonValue::withString(str);
                     }
                 }
@@ -358,7 +367,7 @@ Json::parseJsonValue()
                     string num;
                     if ( readNumber(num) )
                     {
-                        cout << "found number" << endl;
+//                        cout << "found number" << endl;
                         return JsonValue::withNumber(num);
                     }
                 }
@@ -367,7 +376,7 @@ Json::parseJsonValue()
                     bool bValue;
                     if ( readBoolean(bValue) )
                     {
-                        cout << "found boolean" << endl;
+//                        cout << "found boolean" << endl;
                         return JsonValue::withBoolean(bValue);
                     }
                 }
@@ -375,7 +384,7 @@ Json::parseJsonValue()
                 {
                     if ( readNull() )
                     {
-                        cout << "found null" << endl;
+//                        cout << "found null" << endl;
                         return JsonValue::withNull();
                     }
                 }

@@ -38,6 +38,8 @@ private:
     void *m_pObjectValue;
     std::string m_stringValue;
     
+    const std::string m_pathSeparator = "/";
+    
 private:
     JsonValue();
     
@@ -144,6 +146,8 @@ public:
     ~JsonValue();
     
     std::string toString() const;
+    
+    void pipeJson(std::ostream &os, std::string parentPath = "") const;
 };
 
 #endif /* defined(__jsonprint__JsonValue__) */

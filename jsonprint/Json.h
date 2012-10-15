@@ -60,6 +60,8 @@ public:
     
     const char const * toString() const;
     bool isValid() const;
+    
+    void pipe(std::ostream &os);
 };
 
 
