@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int MAX_STRING_SIZE = 256;
+const int MAX_STRING_SIZE = 1024;
 
 
 Json::Json( const char * pszJson, const int size )
@@ -216,7 +216,7 @@ Json::parseJsonArray()
             JsonValue::array_t * array = parent->getArray();
             if ( array )
             {
-//                cout << "adding " << child->toString() << " to array" << endl;
+//                cout << "adding " << child->toString() << " to array @ " << (array->size() - 1) << endl;
                 array->push_back(child);
             }
             else
@@ -423,6 +423,12 @@ Json::readString(string &str)
             
             *pTmp = ch;
             pTmp++;
+            
+            if ( pTmp == pszTmp+MAX_STRING_SIZE )
+            {
+                setError("Trying to read string larger than max allowed size");
+                return false;
+            }
         }
         
         if ( '"' == ch )
@@ -488,7 +494,12 @@ Json::readBoolean(bool &boolean)
 }
 
 #define PUSH_CHAR(x)    *pTmp = (x); \
-                        pTmp++;
+                        pTmp++; \
+                        if ( pTmp == pszTmp+MAX_STRING_SIZE ) \
+                        { \
+                            setError("Trying to read number larger than max allowed size"); \
+                            return false; \
+                        }
 
 bool
 Json::readNumber(string &num)

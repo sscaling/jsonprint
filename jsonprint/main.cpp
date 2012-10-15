@@ -16,54 +16,66 @@ const char const * kTestFile = "/Users/shaun/Development/jsonprint/jsonprint/tes
 
 int main(int argc, const char * argv[])
 {
-//    using std::cout;
-//    using std::ifstream;
-//    using std::endl;
-//    using std::ios;
-//    
-//    //
-//    // get pwd
-//    char buff[256];
-//    getcwd( buff, 256 );
-//    cout << "Starting in '" << buff << "'" << endl;
-//    
-//    ifstream::pos_type size = 0;
-//    char * jsonStr;
-//    
-//    //
-//    // read in test json
-//    ifstream file(kTestFile, ios::in|ios::ate);
-//    if ( file.is_open() )
-//    {
-//        size = file.tellg();
-//        jsonStr = new char [size];
-//        file.seekg (0, ios::beg);
-//        file.read (jsonStr, size);
-//        file.close();
-//    } else {
-//        cout << "Unabled to open '" << kTestFile << "'" << endl;
-//    }
-//
-//    Json* j = new Json(jsonStr, (int)size);
-//    
-//    cout << "Json input has '" << (j->isValid()?j->toString():"") << "'" << endl;
-//    
-//    delete [] jsonStr;
-//    
-//    
-//    cout << "exiting normally";
     
-    std::string jsonInput;
-    
-    std::string line;
-    while (std::getline(std::cin, line))
+    if ( argc > 1 && 't' == *argv[1] )
     {
-        jsonInput.append(line);
+        using std::cout;
+        using std::ifstream;
+        using std::endl;
+        using std::ios;
+        
+        //
+        // get pwd
+        char buff[256];
+        getcwd( buff, 256 );
+        cout << "Starting in '" << buff << "'" << endl;
+        
+        ifstream::pos_type size = 0;
+        char * jsonStr;
+        
+        //
+        // read in test json
+        ifstream file(kTestFile, ios::in|ios::ate);
+        if ( file.is_open() )
+        {
+            size = file.tellg();
+            jsonStr = new char [size];
+            file.seekg (0, ios::beg);
+            file.read (jsonStr, size);
+            file.close();
+        } else {
+            cout << "Unabled to open '" << kTestFile << "'" << endl;
+        }
+        
+        cout << "Instatiating json with " << size << "-bytes" << endl;
+        
+        //cout << jsonStr << endl;
+        
+        Json* j = new Json(jsonStr, (int)size);
+        
+//        cout << "Json input has '" << (j->isValid()?j->toString():"") << "'" << endl;
+        
+        j->pipe(cout);
+        
+        delete [] jsonStr;
+        
+        
+        cout << "exiting normally";
     }
-    
-    Json * j = new Json(jsonInput.c_str(), (int)jsonInput.length());
-    
-    j->pipe(std::cout);
+    else
+    {
+        std::string jsonInput;
+        std::string line;
+        
+        while (std::getline(std::cin, line))
+        {
+            jsonInput.append(line);
+        }
+        
+        Json * j = new Json(jsonInput.c_str(), (int)jsonInput.length());
+        
+        j->pipe(std::cout);
+    }
     
     return 0;
 }
