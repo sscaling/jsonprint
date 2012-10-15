@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		28A1F53A162ACBB10077ED2E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28A1F539162ACBB10077ED2E /* main.cpp */; };
 		28A1F53C162ACBB10077ED2E /* jsonprint.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 28A1F53B162ACBB10077ED2E /* jsonprint.1 */; };
+		28A1F548162ACCAB0077ED2E /* Json.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28A1F546162ACCAB0077ED2E /* Json.cpp */; };
+		28A1F559162ADEA60077ED2E /* JsonValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28A1F557162ADEA60077ED2E /* JsonValue.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +30,11 @@
 		28A1F535162ACBB10077ED2E /* jsonprint */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = jsonprint; sourceTree = BUILT_PRODUCTS_DIR; };
 		28A1F539162ACBB10077ED2E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		28A1F53B162ACBB10077ED2E /* jsonprint.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = jsonprint.1; sourceTree = "<group>"; };
+		28A1F546162ACCAB0077ED2E /* Json.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Json.cpp; sourceTree = "<group>"; };
+		28A1F547162ACCAB0077ED2E /* Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Json.h; sourceTree = "<group>"; };
+		28A1F54B162ACE3F0077ED2E /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
+		28A1F557162ADEA60077ED2E /* JsonValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JsonValue.cpp; sourceTree = "<group>"; };
+		28A1F558162ADEA60077ED2E /* JsonValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonValue.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,10 +67,39 @@
 		28A1F538162ACBB10077ED2E /* jsonprint */ = {
 			isa = PBXGroup;
 			children = (
+				28A1F54C162ACE5A0077ED2E /* header */,
+				28A1F54D162ACE7B0077ED2E /* classes */,
+				28A1F54A162ACDD30077ED2E /* resources */,
 				28A1F539162ACBB10077ED2E /* main.cpp */,
-				28A1F53B162ACBB10077ED2E /* jsonprint.1 */,
 			);
 			path = jsonprint;
+			sourceTree = "<group>";
+		};
+		28A1F54A162ACDD30077ED2E /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				28A1F53B162ACBB10077ED2E /* jsonprint.1 */,
+				28A1F54B162ACE3F0077ED2E /* test.json */,
+			);
+			name = resources;
+			sourceTree = "<group>";
+		};
+		28A1F54C162ACE5A0077ED2E /* header */ = {
+			isa = PBXGroup;
+			children = (
+				28A1F547162ACCAB0077ED2E /* Json.h */,
+				28A1F558162ADEA60077ED2E /* JsonValue.h */,
+			);
+			name = header;
+			sourceTree = "<group>";
+		};
+		28A1F54D162ACE7B0077ED2E /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				28A1F546162ACCAB0077ED2E /* Json.cpp */,
+				28A1F557162ADEA60077ED2E /* JsonValue.cpp */,
+			);
+			name = classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +154,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				28A1F53A162ACBB10077ED2E /* main.cpp in Sources */,
+				28A1F548162ACCAB0077ED2E /* Json.cpp in Sources */,
+				28A1F559162ADEA60077ED2E /* JsonValue.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,7 +187,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-v";
 				SDKROOT = macosx;
+				WARNING_LDFLAGS = "-v";
 			};
 			name = Debug;
 		};
@@ -171,7 +211,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-v";
 				SDKROOT = macosx;
+				WARNING_LDFLAGS = "-v";
 			};
 			name = Release;
 		};
@@ -208,6 +251,7 @@
 				28A1F541162ACBB10077ED2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
