@@ -261,11 +261,21 @@ Json::parseJsonObject()
     if ( '{' == thisChar() )
     {
         skipChar();
+
+        eatWhiteSpace();
+        
+        if ( '}' == thisChar() )
+        {
+            // empty object
+            skipChar();
+
+            return JsonValue::withObject();
+        }
         
         JsonValue *parent = JsonValue::withObject();
-
+        
         while ( parseKeyValue(parent->getObject()) )
-        {            
+        {
             eatWhiteSpace();
             
             if ( ',' == thisChar() )
@@ -277,7 +287,7 @@ Json::parseJsonObject()
                 break;
             }
         }
-        
+                
         eatWhiteSpace();
 
         if ( '}' == thisChar() )
